@@ -8,7 +8,30 @@ export const fetchContacts = createAsyncThunk(
       const contacts = await contactsAPI.fetchContacts();
       return contacts;
     } catch (e) {
-      return rejectWithValue(e);
+      return rejectWithValue(e.message);
+    }
+  }
+);
+export const addContact = createAsyncThunk(
+  'contacts/addContact',
+  async (contact, { rejectWithValue }) => {
+    try {
+      const response = await contactsAPI.addContact(contact);
+      return response;
+    } catch (e) {
+      return rejectWithValue(e.message);
+    }
+  }
+);
+
+export const deleteContact = createAsyncThunk(
+  'tasks/deleteContact',
+  async (contactId, { rejectWithValue }) => {
+    try {
+      const response = await contactsAPI.deleteContact(contactId);
+      return response;
+    } catch (e) {
+      return rejectWithValue(e.message);
     }
   }
 );

@@ -8,7 +8,7 @@ import {
   ContactsButton,
 } from './ContactList.styled';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/contactsSlice';
+import { deleteContact } from 'redux/contacts-operations';
 import {
   selectContacts,
   selectFilterValue,

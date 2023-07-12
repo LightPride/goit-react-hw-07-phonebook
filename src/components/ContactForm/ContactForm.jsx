@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, FormLabel, FormInput, FormButton } from './ContactForm.styled';
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
+import { addContact } from 'redux/contacts-operations';
 import shortid from 'shortid';
 import { selectContacts } from 'redux/selectors';
 
