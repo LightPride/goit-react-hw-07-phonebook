@@ -10,32 +10,26 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteContact } from 'redux/contacts-operations';
 import {
-  selectContacts,
-  selectFilterValue,
   selectError,
   selectIsLoading,
+  selectVisibleContacts,
 } from 'redux/selectors';
 import * as contactOperations from 'redux/contacts-operations';
 
 const ContactList = () => {
-  const contacts = useSelector(selectContacts);
-  const filter = useSelector(selectFilterValue);
-  const normalizedFilter = filter.toLowerCase();
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
   const dispatch = useDispatch();
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(normalizedFilter)
-  );
   useEffect(() => {
     dispatch(contactOperations.fetchContacts());
   }, [dispatch]);
+  const contacts = useSelector(selectVisibleContacts);
   return (
     <>
       {isLoading && !error && <b>Request in progress...</b>}
       {!isLoading && contacts.length > 0 && (
         <ContactsList>
-          {filteredContacts.map(contact => {
+          {contacts.map(contact => {
             return (
               <ContactsItem key={contact.id}>
                 <ContactsName>

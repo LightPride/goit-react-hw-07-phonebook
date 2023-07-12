@@ -20,16 +20,7 @@ export const contactsSlice = createSlice({
     isLoading: false,
     error: null,
   },
-  // reducers: {
-  //   addContact(state, action) {
-  //     state.items.push(action.payload);
-  //   },
-  //   deleteContact(state, action) {
-  //     state.items = state.items.filter(
-  //       contact => contact.id !== action.payload
-  //     );
-  //   },
-  // },
+  reducers: {},
   extraReducers: {
     [fetchContacts.pending]: handlePending,
     [addContact.pending]: handlePending,
@@ -46,16 +37,13 @@ export const contactsSlice = createSlice({
     [addContact.fulfilled](state, action) {
       state.isLoading = false;
       state.error = null;
-      state.items.push(action.payload);
+      state.items = [...state.items, action.payload];
     },
 
     [deleteContact.fulfilled](state, action) {
       state.isLoading = false;
       state.error = null;
-      const index = state.items.findIndex(
-        contact => contact.id === action.payload.id
-      );
-      state.items.splice(index, 1);
+      state.items = state.items.filter(item => item.id !== action.payload.id);
     },
   },
 });
