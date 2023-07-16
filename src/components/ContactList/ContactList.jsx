@@ -9,6 +9,7 @@ import {
 } from './ContactList.styled';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteContact } from 'redux/contacts-operations';
+import Loader from 'components/Loader/Loader';
 import {
   selectError,
   selectIsLoading,
@@ -26,7 +27,7 @@ const ContactList = () => {
   const contacts = useSelector(selectVisibleContacts);
   return (
     <>
-      {isLoading && !error && <b>Request in progress...</b>}
+      {isLoading && !error && <Loader></Loader>}
       {!isLoading && contacts.length > 0 && (
         <ContactsList>
           {contacts.map(contact => {
