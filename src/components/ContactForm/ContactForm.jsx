@@ -2,29 +2,26 @@ import React, { useState } from 'react';
 import { Form, FormLabel, FormInput, FormButton } from './ContactForm.styled';
 import { useSelector, useDispatch } from 'react-redux';
 import { addContact } from 'redux/contacts-operations';
-import shortid from 'shortid';
+// import shortid from 'shortid';
 import { selectContacts } from 'redux/selectors';
 
 function ContactForm() {
-  const [number, setNumber] = useState('');
+  const [phone, setPhone] = useState('');
   const [name, setName] = useState('');
   const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
   const handleSubmit = event => {
     event.preventDefault();
-    const newContact = {
-      id: shortid.generate(),
-      ...{ name, number },
-    };
+    const normalizedName = name.toLowerCase();
     const existingContact = contacts.find(
-      contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
+      contact => contact.name.toLowerCase() === normalizedName
     );
     resetForm();
     if (existingContact) {
       alert(`${existingContact.name} is already in contacts`);
       return;
     }
-    dispatch(addContact(newContact));
+    dispatch(addContact({ name: name, phone: phone }));
   };
 
   const handleChange = event => {
@@ -32,8 +29,8 @@ function ContactForm() {
       case 'name':
         setName(event.currentTarget.value);
         break;
-      case 'number':
-        setNumber(event.currentTarget.value);
+      case 'phone':
+        setPhone(event.currentTarget.value);
         break;
 
       default:
@@ -43,7 +40,7 @@ function ContactForm() {
 
   const resetForm = () => {
     setName('');
-    setNumber('');
+    setPhone('');
   };
 
   return (
@@ -65,8 +62,8 @@ function ContactForm() {
         Phone
         <FormInput
           type="text"
-          value={number}
-          name="number"
+          value={phone}
+          name="phone"
           onChange={handleChange}
         />
       </FormLabel>
