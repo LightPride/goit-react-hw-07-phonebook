@@ -9,17 +9,11 @@ import {
 } from './ContactList.styled';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteContact } from 'redux/contacts-operations';
-import Loader from 'components/Loader/Loader';
-import {
-  selectError,
-  selectIsLoading,
-  selectVisibleContacts,
-} from 'redux/selectors';
+
+import { selectVisibleContacts } from 'redux/selectors';
 import * as contactOperations from 'redux/contacts-operations';
 
 const ContactList = () => {
-  const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(contactOperations.fetchContacts());
@@ -27,8 +21,7 @@ const ContactList = () => {
   const contacts = useSelector(selectVisibleContacts);
   return (
     <>
-      {isLoading && !error && <Loader></Loader>}
-      {!isLoading && contacts.length > 0 && (
+      {contacts.length > 0 && (
         <ContactsList>
           {contacts.map(contact => {
             return (

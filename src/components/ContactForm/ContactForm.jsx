@@ -4,24 +4,29 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addContact } from 'redux/contacts-operations';
 // import shortid from 'shortid';
 import { selectContacts } from 'redux/selectors';
+import { selectError, selectIsLoading } from 'redux/selectors';
 
 function ContactForm() {
   const [phone, setPhone] = useState('');
   const [name, setName] = useState('');
   const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
   const dispatch = useDispatch();
+
   const handleSubmit = event => {
     event.preventDefault();
     const normalizedName = name.toLowerCase();
     const existingContact = contacts.find(
       contact => contact.name.toLowerCase() === normalizedName
     );
-    resetForm();
     if (existingContact) {
       alert(`${existingContact.name} is already in contacts`);
       return;
     }
+
     dispatch(addContact({ name: name, phone: phone }));
+    resetForm();
   };
 
   const handleChange = event => {
@@ -64,10 +69,13 @@ function ContactForm() {
           type="text"
           value={phone}
           name="phone"
+          pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
           onChange={handleChange}
         />
       </FormLabel>
-      <FormButton type="submit">Add contact</FormButton>
+      <FormButton type="submit">
+        {isLoading ? 'Loading...' : 'Add Contact'}
+      </FormButton>
     </Form>
   );
 }
