@@ -4,14 +4,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addContact } from 'redux/contacts-operations';
 // import shortid from 'shortid';
 import { selectContacts } from 'redux/selectors';
-import { selectError, selectIsLoading } from 'redux/selectors';
+import { selectIsLoading } from 'redux/selectors';
 
 function ContactForm() {
   const [phone, setPhone] = useState('');
   const [name, setName] = useState('');
   const contacts = useSelector(selectContacts);
   const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
+
   const dispatch = useDispatch();
 
   const handleSubmit = event => {
